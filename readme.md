@@ -31,7 +31,8 @@ pulsechat
 
 **Frontend**
 
-* Modern JavaScript framework
+* Angular
+* AngularJS
 
 **Infrastructure**
 
