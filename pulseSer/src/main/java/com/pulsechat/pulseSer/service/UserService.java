@@ -4,6 +4,7 @@ import com.pulsechat.pulseSer.dto.LoginRequest;
 import com.pulsechat.pulseSer.dto.LoginResponse;
 import com.pulsechat.pulseSer.model.User;
 import com.pulsechat.pulseSer.repository.UserRepository;
+import com.pulsechat.pulseSer.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +17,10 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public UserService(PasswordEncoder passwordEncoder,UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -52,7 +56,8 @@ public class UserService {
         }
 
         LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setToken("testtoken"); // replace with JWT later
+        String token = jwtUtil.generateToken(user.getUsername());
+        loginResponse.setToken(token);
         loginResponse.setUsername(user.getUsername());
         loginResponse.setEmail(user.getEmail());
         loginResponse.setId(user.getId());
